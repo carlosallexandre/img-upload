@@ -74,16 +74,11 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
         return;
       }
 
-      await mutation.mutateAsync(
-        {
-          title: data.title,
-          description: data.description,
-          url: imageUrl,
-        },
-        {
-          onSuccess: () => console.log('mutate'),
-        }
-      );
+      await mutation.mutateAsync({
+        title: data.title,
+        description: data.description,
+        url: imageUrl,
+      });
 
       toast({
         title: 'Imagem cadastrada',
