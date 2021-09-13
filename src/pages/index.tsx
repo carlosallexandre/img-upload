@@ -22,10 +22,10 @@ type ImgResponse = {
 };
 
 export default function Home(): JSX.Element {
-  const fetchImgs = async ({ pageParam = 0 }): Promise<ImgResponse> => {
-    const response = await api.get<ImgResponse>(
-      `http://localhost:3000/api/images?after=${pageParam}`
-    );
+  const fetchImgs = async ({ pageParam = null }): Promise<ImgResponse> => {
+    const response = await api.get<ImgResponse>('api/images', {
+      params: { after: pageParam },
+    });
 
     return response.data;
   };
@@ -45,12 +45,22 @@ export default function Home(): JSX.Element {
     return data?.pages.flatMap(page => page.data);
   }, [data]);
 
-  if (isLoading && !isFetchingNextPage) {
-    return <Loading />;
+  if (isLoading) {
+    return (
+      <>
+        <Header />
+        <Loading />
+      </>
+    );
   }
 
-  if (isError && !isFetchingNextPage) {
-    return <Error />;
+  if (isError) {
+    return (
+      <>
+        <Header />
+        <Error />
+      </>
+    );
   }
 
   return (
